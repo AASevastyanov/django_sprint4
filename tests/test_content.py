@@ -401,7 +401,7 @@ class TestContent:
         else:
             context_posts = response.context.get(items_key)
             assert (
-                    len(context_posts) == 1
+                len(context_posts) == 1
             ), ("Убедитесь, что на странице пользователя "
                 "не отображаются публикации других авторов.")
 

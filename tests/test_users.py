@@ -77,7 +77,8 @@ def test_custom_err_handlers(client):
     }
     for template in auth_templates:
         try:
-            fpath: Path = Path(settings.TEMPLATES_DIR) / "registration" / template
+            fpath: Path = Path(settings.TEMPLATES_DIR) / \
+                "registration" / template
         except Exception as e:
             raise AssertionError(
                 'Убедитесь, что переменная TEMPLATES_DIR в настройках проекта '

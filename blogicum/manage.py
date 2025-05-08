@@ -1,4 +1,5 @@
-import os,sys
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','blogicum.settings')
 from django.core.management import execute_from_command_line
+import os
+import sys
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blogicum.settings')
 execute_from_command_line(sys.argv)

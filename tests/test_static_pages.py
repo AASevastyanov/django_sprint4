@@ -4,7 +4,7 @@ def test_static_pages_as_cbv():
     except Exception as e:
         raise AssertionError(
             "Убедитесь, что в файле `pages/urls.py` нет ошибок. При его"
-            f" импорте возникла ошибка:\n{type(e).__name__}: {e}"
+            f" импорте возникла ошибка: \n{type(e).__name__}: {e}"
         )
     try:
         from pages.urls import urlpatterns

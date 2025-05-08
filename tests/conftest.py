@@ -61,7 +61,7 @@ class SafeImportFromContextManager:
             raise AssertionError(
                 f"Убедитесь, что в файле `{self._import_path}` нет ошибок. "
                 f"При импорте из него {self._import_of}"
-                f"`{disp_imp_names}` возникла ошибка:\n"
+                f"`{disp_imp_names}` возникла ошибка: \n"
                 f"{exc_type.__name__}: {exc_value}"
             )
 
@@ -204,7 +204,7 @@ def PostModel() -> Type[Model]:
             "При импорте модели `Post` из файла `models.py` возникла ошибка."
             " Убедитесь, что в файле `blog/models.py` нет ошибок и что в нём"
             " объявлена модель Post. Сообщение об"
-            f" ошибке:\n{type(e).__name__}: {e}"
+            f" ошибке: \n{type(e).__name__}: {e}"
         )
     return Post
 

@@ -43,7 +43,7 @@ class StudentModelAdapter(ModelAdapter):
         }
 
         assert len(item_field_names) == len(item_fields), (
-            f"Убедитесь, что в модели {self.ItemModel.__name__} нет полей,"
+            f"Убедитесь, что в модели {self.ItemModel.__name__} нет полей, "
             " которые не описаны в задании. Проверьте, что для всех полей"
             " модели правильно заданы типы."
         )
