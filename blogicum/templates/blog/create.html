@@ -24,7 +24,7 @@
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {% if not '/delete/' in request.path %}
-            {% form.as_p %}
+            {{ form.as_p }}
           {% else %}
             <article>
               {% if form.instance.image %}

@@ -3,6 +3,18 @@
 {% block content %}
 <h1>Профиль {{ profile_user.username }}</h1>
 
+<p>
+  {{ profile_user.first_name|default:profile_user.username }}
+  {{ profile_user.last_name }}
+</p>
+
+{% if request.user == profile_user %}
+  <p>
+    <a href="{% url 'users:profile_edit' profile_user.username %}">Редактировать профиль</a> |
+    <a href="{% url 'password_change' %}">Сменить пароль</a>
+  </p>
+{% endif %}
+
 {% for post in page_obj %}
   <h3>{{ post.title }}</h3>
   {% if post.image %}

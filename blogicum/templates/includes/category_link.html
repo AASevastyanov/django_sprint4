@@ -1,3 +1,15 @@
-<a class="text-muted" href="{% url 'blog:category_posts' post.category.slug %}">
-  {{ post.category.title }}
-</a>
+{# includes/category_link.html #}
+{% comment %}
+Безопасно выводим ссылку на категорию:
+• ссылка есть только, если категория опубликована **и** slug не пустой;
+• иначе — текст «Без категории».
+{% endcomment %}
+
+{% if post.category and post.category.is_published and post.category.slug %}
+  <a class="text-muted"
+     href="{% url 'blog:category_posts' post.category.slug %}">
+    {{ post.category.title }}
+  </a>
+{% else %}
+  <span class="text-muted">Без категории</span>
+{% endif %}

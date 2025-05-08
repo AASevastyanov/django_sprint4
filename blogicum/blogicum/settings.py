@@ -44,7 +44,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3'}}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LANGUAGE_CODE = 'ru-ru'
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'UTC'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
+
+USE_TZ = True
