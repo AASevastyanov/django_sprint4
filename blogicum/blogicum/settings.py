@@ -4,7 +4,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = ''.join('V' for _ in range(50))
 DEBUG = True
 ALLOWED_HOSTS = []
-
+TEMPLATES_DIR = BASE_DIR / 'templates'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,7 +32,7 @@ ROOT_URLCONF = 'blogicum.urls'
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [BASE_DIR / 'templates'],
+    'DIRS': [TEMPLATES_DIR],
     'APP_DIRS': True,
     'OPTIONS': {
         'context_processors': [

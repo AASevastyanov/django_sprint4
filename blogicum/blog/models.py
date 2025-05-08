@@ -33,6 +33,7 @@ class Location(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
     pub_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
         User,
@@ -70,11 +71,11 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comments')
     text = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('created_at',)
 
     def __str__(self):
         return f'{self.author} – {self.text[:15]}'
