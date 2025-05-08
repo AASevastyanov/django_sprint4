@@ -19,6 +19,17 @@ def _visible(posts, user):
     return base
 
 
+def visible_posts(qs, user):
+    qs = qs.filter(
+        is_published=True,
+        pub_date__lte=timezone.now(),
+        category__is_published=True,
+    )
+    if user.is_authenticated:
+        qs = qs | qs.model.objects.filter(author=user)
+    return qs.distinct()
+
+
 def index(request):
     posts = _visible(
         Post.objects.annotate(

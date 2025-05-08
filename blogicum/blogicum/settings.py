@@ -4,7 +4,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = ''.join('V' for _ in range(50))
 DEBUG = True
 ALLOWED_HOSTS = []
-TEMPLATES_DIR = BASE_DIR / 'templates'
+TEMPLATES_DIR = BASE_DIR / 'blogicum' / 'templates'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
