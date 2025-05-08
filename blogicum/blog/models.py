@@ -1,6 +1,8 @@
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+
 User = get_user_model()
 
 
@@ -31,26 +33,26 @@ class Location(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
     pub_date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='posts')
-    category = models.ForeignKey(
-        Category,
+    location = models.ForeignKey(
+        'Location',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='posts')
-    location = models.ForeignKey(
-        Location,
+    category = models.ForeignKey(
+        'Category',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='posts')
     is_published = models.BooleanField(default=True)
     image = models.ImageField(upload_to='posts_images/', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('-pub_date',)
@@ -69,10 +71,10 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='comments')
     text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True, db_column='created')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('created_at',)
 
     def __str__(self):
-        return f'Comment {self.pk}'
+        return f'{self.author} – {self.text[:15]}'
