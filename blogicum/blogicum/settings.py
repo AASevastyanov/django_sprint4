@@ -4,6 +4,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = BASE_DIR / 'templates'
 SECRET_KEY = 'secret'
 DEBUG = True
+MEDIA_ROOT = BASE_DIR / 'media'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',

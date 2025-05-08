@@ -1,1 +1,6 @@
 {% extends 'base.html' %}{% block content %}profile{% endblock %}
+{% for post in page_obj %}
+  {% if post.image %}
+    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+  {% endif %}
+{% endfor %}
