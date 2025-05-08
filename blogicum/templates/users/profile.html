@@ -1,6 +1,15 @@
-{% extends 'base.html' %}{% block content %}profile{% endblock %}
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Профиль {{ profile_user.username }}</h1>
+
 {% for post in page_obj %}
+  <h3>{{ post.title }}</h3>
   {% if post.image %}
-    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    <img src="{{ post.image.url }}" style="max-width:200px">
   {% endif %}
+  <p>{{ post.text|truncatewords:20 }}</p>
 {% endfor %}
+
+{% include "includes/paginator.html" %}
+{% endblock %}
