@@ -1,7 +1,7 @@
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIR = BASE_DIR / 'blogicum' / 'templates'
-SECRET_KEY = 'dummy-secret'
+TEMPLATES_DIR = BASE_DIR / 'templates'
+SECRET_KEY = 'dummy-key'
 DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = [
@@ -39,12 +39,12 @@ TEMPLATES = [{
     },
 }]
 WSGI_APPLICATION = 'blogicum.wsgi.application'
-DATABASES = { 'default': { 'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'} }
-AUTH_PASSWORD_VALIDATORS = []
+DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Europe/Moscow'
 USE_I18N = USE_TZ = True
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
