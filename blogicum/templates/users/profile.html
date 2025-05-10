@@ -1,27 +1,22 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block content %}
-<h1>Профиль {{ profile_user.username }}</h1>
+<div class="container py-5">
+  <h1>Профиль пользователя {{ profile_user.username }}</h1>
+  <div class="mb-5">
+    <p>Имя: {{ profile_user.first_name }}</p>
+    <p>Фамилия: {{ profile_user.last_name }}</p>
+    {% if profile_user == user %}
+      <a href="{% url 'users:profile_edit' profile_user.username %}">Редактировать профиль</a>
+      <a href="{% url 'password_change' %}">Изменить пароль</a>
+    {% endif %}
+  </div>
 
-<p>
-  {{ profile_user.first_name|default:profile_user.username }}
-  {{ profile_user.last_name }}
-</p>
+  {% for post in page_obj %}
+    <article class="mb-5">
+      {% include "includes/post_card.html" %}
+    </article>
+  {% endfor %}
 
-{% if request.user == profile_user %}
-  <p>
-    <a href="{% url 'users:profile_edit' profile_user.username %}">Редактировать профиль</a> |
-    <a href="{% url 'password_change' %}">Сменить пароль</a>
-  </p>
-{% endif %}
-
-{% for post in page_obj %}
-  <h3>{{ post.title }}</h3>
-  {% if post.image %}
-    <img src="{{ post.image.url }}" style="max-width:200px">
-  {% endif %}
-  <p>{{ post.text|truncatewords:20 }}</p>
-{% endfor %}
-
-{% include "includes/paginator.html" %}
+  {% include "includes/paginator.html" %}
+</div>
 {% endblock %}

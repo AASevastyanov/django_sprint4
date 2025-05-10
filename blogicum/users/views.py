@@ -9,8 +9,8 @@ User = get_user_model()
 
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-
-    posts = Post.objects.filter(author=user).select_related('category')
+    
+    posts = Post.objects.filter(author=user).select_related('category', 'author')
     if request.user != user:
         posts = posts.filter(
             is_published=True,
@@ -22,10 +22,10 @@ def profile(request, username):
     page_obj = paginator.get_page(request.GET.get('page'))
 
     return render(request, 'users/profile.html', {
-        'page_obj': page_obj,
         'profile_user': user,
+        'page_obj': page_obj,
+        'profile': user 
     })
-
 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, UpdateView

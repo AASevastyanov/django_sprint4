@@ -13,6 +13,7 @@ urlpatterns = [
     path('auth/', include('users.urls')),
     path('', include('blog.urls',  namespace='blog')),
     path('', include('pages.urls', namespace='pages')),
+    path('', include('users.urls')),
 ]
 
 handler404 = 'pages.views.page_not_found'

@@ -1,7 +1,5 @@
-
 from django.urls import path
 from . import views
-from users import views as users_views
 
 app_name = 'blog'
 
@@ -28,7 +26,4 @@ urlpatterns = [
         views.delete_comment,
         name='delete_comment',
     ),
-
-    # Профиль пользователя (под неймспейсом blog)
-    path('profile/<str:username>/', users_views.profile, name='profile'),
 ]

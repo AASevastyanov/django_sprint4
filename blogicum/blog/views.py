@@ -5,8 +5,9 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from django.db.models import Count
 
-from .models import Post, Category
+from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm
+
 
 POSTS_PER_PAGE = 10
 
@@ -80,6 +81,8 @@ def post_edit(request, post_id):
     return render(request, 'blog/create.html', {'form': form, 'is_edit': True})
 
 
+
+
 @login_required
 def post_delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -94,60 +97,54 @@ def post_delete(request, post_id):
 @login_required
 def add_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    form = CommentForm(request.POST)
+    form = CommentForm(request.POST or None)
     if form.is_valid():
-        cm = form.save(commit=False)
-        cm.post = post
-        cm.author = request.user
-        cm.save()
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.author = request.user
+        comment.save()
         return redirect('blog:post_detail', post_id)
     return render(request, 'blog/detail.html', {'post': post, 'form': form})
 
 
-def visible_posts(posts, user):
-    """Вернуть QuerySet публикаций, видимых для текущего пользователя.
 
-    - Для всех посетителей показываются только опубликованные посты,
-      дата публикации которых не позже текущего момента и категория которых опубликована.
-    - Автору показываются *все* его посты независимо от даты, категории и статуса публикации.
-    Результат отсортирован по дате публикации от новых к старым и без дубликатов.
+def visible_posts(posts, user):
     """
-    base_filter = dict(
-        is_published=True,
-        pub_date__lte=timezone.now(),
-        category__is_published=True,
+    Публикации, которые могут появляться НА ПУБЛИЧНЫХ страницах
+    (главная, категория, поиск и т. д.).
+    """
+    return (
+        posts.filter(
+            is_published=True,
+            pub_date__lte=timezone.now(),
+            category__is_published=True,
+        )
+        .order_by('-pub_date')
     )
-    public_qs = posts.filter(**base_filter)
-    if user.is_authenticated:
-        own_qs = posts.filter(author=user)
-        qs = (public_qs | own_qs).distinct()
-    else:
-        qs = public_qs
-    return qs.order_by('-pub_date')
 
 
 @login_required
 def edit_comment(request, post_id, comment_id):
-    """Редактирование комментария."""
-    post = get_object_or_404(Post, pk=post_id)
-    comment = get_object_or_404(post.comments, pk=comment_id, author=request.user)
-    if request.method == 'POST':
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-            form.save()
-            return redirect('blog:post_detail', post_id)
-    else:
-        form = CommentForm(instance=comment)
-    return render(request, 'blog/edit_comment.html', {'form': form, 'post': post, 'comment': comment})
-
+    comment = get_object_or_404(Comment, id=comment_id, author=request.user)
+    form = CommentForm(request.POST or None, instance=comment)
+    
+    if form.is_valid():
+        form.save()
+        return redirect('blog:post_detail', post_id=post_id)
+        
+    return render(request, 'blog/comment.html', {
+        'form': form,
+        'comment': comment,
+    })
 
 @login_required
 def delete_comment(request, post_id, comment_id):
-    """Удаление комментария."""
-    post = get_object_or_404(Post, pk=post_id)
-    comment = get_object_or_404(post.comments, pk=comment_id, author=request.user)
+    comment = get_object_or_404(Comment, id=comment_id, author=request.user)
+    
     if request.method == 'POST':
         comment.delete()
-        return redirect('blog:post_detail', post_id)
-    return render(request, 'blog/delete_comment.html', {'post': post, 'comment': comment})
-
+        return redirect('blog:post_detail', post_id=post_id)
+        
+    return render(request, 'blog/comment.html', {
+        'comment': comment,
+    })
